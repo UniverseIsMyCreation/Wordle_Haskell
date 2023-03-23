@@ -1,1 +1,1 @@
-# Wordle_Haskell
+# wordle
