@@ -6,12 +6,10 @@ import System.IO()
 
 import Gameplay
 import Preprocessing
-import Constants
-import Types
 
-startGame :: IO () -- Запуск нашей игры
+startGame :: IO () -- Launch the game
 startGame = do
-    putStrLn "Welcome to the world-wide famous game Worldle" -- Приветствие в игре
+    putStrLn "Welcome to the world-wide famous game Worldle" -- Hello the player
 
     putStrLn "Local guide:"
     putStrLn "---white(0) means there is no such letter in word"
@@ -24,8 +22,8 @@ startGame = do
     putStrLn "Please, input file name with same length(6) words to guess"
     inputFile <- getLine
     
-    ourDictionary <- readDictionary inputFile -- Получаем готовый словарь 
-    wordIndex <- getRandomIndex ourDictionary -- Получаем индекс слова, либо ошибку
-    let guessWord = randomWord ourDictionary wordIndex -- Получаем слово, либо ошибку
-    checkGuessWord guessWord -- Проверка правильности входных данных
-    playGame guessWord -- Игра
+    ourDictionary <- readDictionary inputFile -- Get prepared dictionary
+    wordIndex <- getRandomIndex ourDictionary -- Either get word index either error 
+    let guessWord = randomWord ourDictionary wordIndex -- Either get word either error
+    checkGuessWord guessWord -- Chech correctness of input data
+    playGame guessWord -- Game
