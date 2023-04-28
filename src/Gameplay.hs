@@ -89,7 +89,7 @@ drawState (GameState _ EmptyHistory curAttemtps _ _ _) = pictures $ gameConditio
     inputText = text $ "3) Letters-input letter"
 
 drawState (GameState _ (History curGuesses) curAttemtps _ _ _) = pictures $ gameCondition where
-    gameCondition = frames ++ letters ++ [remainingPic, rules1, rules2, press11, press12, press2, press3]
+    gameCondition = frames ++ letters ++ allRules
     frames = drawBoard (revealListCode curGuesses) 0 where
         revealListCode :: [(String, String)] -> String -- Reveal list
         revealListCode [] = []
@@ -98,6 +98,7 @@ drawState (GameState _ (History curGuesses) curAttemtps _ _ _) = pictures $ game
         revealListSymbols :: [(String, String)] -> String -- Reveal list
         revealListSymbols [] = []
         revealListSymbols (x:xs) = fst x ++ revealListSymbols xs
+    allRules = [remainingPic, rules1, rules2, press11, press12, press2, press3]
     remainingPic = scale scaleStateW scaleStateH $ translate (-700) (-800) $ remainingText
     remainingText = text $ "Guesses remaining: " ++ show curAttemtps
     rules1 = scale scaleRuleW scaleRuleH $ translate (-2500) (1000) $ instructionText

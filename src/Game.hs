@@ -6,6 +6,7 @@ import System.IO()
 
 import Gameplay
 import Preprocessing
+import Types
 
 startGame :: IO () -- Launch the game
 startGame = do
@@ -22,8 +23,15 @@ startGame = do
     putStrLn "Please, input file name with same length(6) words to guess"
     inputFile <- getLine
     
+    checking <- checkReadFile inputFile -- if there is no such file
+    if checking == Nothing
+        then putStrLn "Such file doesn't exist!!!"
+        else continueGame inputFile
+
+continueGame :: FileName -> IO()
+continueGame inputFile = do
     ourDictionary <- readDictionary inputFile -- Get prepared dictionary
     wordIndex <- getRandomIndex ourDictionary -- Either get word index either error 
     let guessWord = randomWord ourDictionary wordIndex -- Either get word either error
-    checkGuessWord guessWord -- Chech correctness of input data
+    checkGuessWord guessWord -- Check correctness of input data
     playGame guessWord -- Game

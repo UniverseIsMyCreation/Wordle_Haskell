@@ -2,12 +2,6 @@ module Types(
     History(EmptyHistory, History),
     GameState(GameState),
     Dictionary(EmptyDictionary, Dictionary),
-    word,
-    guesses,
-    attemtps,
-    win,
-    lose,
-    wordLen,
     FileName,
     UserWord,
     CodeAnswer

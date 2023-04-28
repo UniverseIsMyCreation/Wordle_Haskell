@@ -2,16 +2,25 @@ module Preprocessing(
     readDictionary,
     getRandomIndex,
     randomWord,
-    checkGuessWord
+    checkGuessWord,
+    checkReadFile
 ) where
 
 import System.Random (randomRIO)
 import Data.List.Split
 import System.IO()
 import Data.Char (toLower)
+import Control.Exception.Base (SomeException, try)
 
 import Constants
 import Types
+
+checkReadFile :: FileName -> IO (Maybe String)
+checkReadFile path = do
+    contents <- try (readFile path) :: IO (Either SomeException String)
+    case contents of
+        Left _ -> return $ Nothing
+        Right _ -> return $ Just "okay"
 
 readDictionary :: FileName -> IO (Dictionary String) -- Read Dictionary
 readDictionary path = do
@@ -50,10 +59,13 @@ getRandomIndex ourDictionary = do
 
 randomWord :: Dictionary String -> Int -> Either Int UserWord -- Generate random word to guess
 randomWord ourDictionary posWord = case ourDictionary of
-    EmptyDictionary -> Left $ -1
-    Dictionary [] -> Left $ -1
-    Dictionary (x:xs) -> if length (x:xs) < minLenDict then Left $ -1 else getWord (x:xs) posWord 0
+    EmptyDictionary -> errDict
+    Dictionary [] -> errDict
+    Dictionary (x:xs) -> if length (x:xs) < minLenDict 
+                         then errDict 
+                         else getWord (x:xs) posWord 0
     where
+        errDict = Left $ -1
         getWord :: [String] -> Int -> Int -> Either Int UserWord -- Get word
         getWord [] _ _ = Left $ -1
         getWord (x:xs) findWordPos curPos | findWordPos == curPos = Right x
